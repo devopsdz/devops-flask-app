@@ -1,0 +1,6 @@
+services:
+  web:
+    image: devopsdz/my-devops-app
+    ports:
+      - "5000:5000"
+
