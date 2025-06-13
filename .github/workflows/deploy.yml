@@ -6,7 +6,7 @@ on:
         uses: actions/checkout@v3
   push:
     branches:
-      - main
+      - okh
 jobs:
   deploy:
     runs-on: ubuntu-latest
