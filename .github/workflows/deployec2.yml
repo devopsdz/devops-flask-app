@@ -27,7 +27,7 @@ jobs:
 
       - name: Set up SSH key
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ec2_key.pem
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > devopsdz_key.pem
           chmod 400 devopsdz_key.pem
 
       - name: Deploy on EC2 via SSH
