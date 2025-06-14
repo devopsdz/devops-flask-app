@@ -30,24 +30,29 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > devopsdz_key.pem
           chmod 400 devopsdz_key.pem
 
-      - name: 🛰️ Deploy on EC2 via SSH
+      - name: 📁 Create /app folder on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i devopsdz_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "mkdir -p /app"
+
+      - name: 📤 Copy docker-compose.yml to EC2
         run: |
           scp -o StrictHostKeyChecking=no -i devopsdz_key.pem docker-compose.yml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/app
-          
+
+      - name: 🛰️ Deploy on EC2 via SSH
+        run: |
           ssh -o StrictHostKeyChecking=no -i devopsdz_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           
-
-
           echo "✅ Connected to EC2"
 
-          echo "🧼 Killing containers on port 5000 if any..."
-          docker compose -f docker-compose.yml down
           cd /app
+
+          echo "🧼 Stopping old containers..."
+          docker compose -f docker-compose.yml down
 
           echo "📥 Pulling latest image..."
           docker compose -f docker-compose.yml pull
 
-          echo "🚀 Running new container..."
-          docker compose -f docker-compose.yml up
+          echo "🚀 Starting new container in detached mode..."
+          docker compose -f docker-compose.yml up -d
 
           EOF
