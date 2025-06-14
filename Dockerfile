@@ -2,7 +2,7 @@
 FROM python:3.13-slim
 
 # 2. نحددو وين نخدمو فداخل الحاوية
-WORKDIR /redis
+WORKDIR /app
 
 # 3. ننسخو الملفات من جهازنا الى الحاوية
 COPY requirements.txt .
