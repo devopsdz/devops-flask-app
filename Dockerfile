@@ -15,7 +15,8 @@ COPY . .
 EXPOSE 4000
 
 # 5. وقت لي الحاوية تخدم, هاد الأمر يتنفذ
-#CMD ["python", "app.py"]
-CMD ["gunicorn", "app:app", "-b", "0.0.0.0:4000"]
+CMD ["python", "app.py"]
+#CMD ["gunicorn", "app:app", "-b", "0.0.0.0:4000"]
 # الهدف: نحطو فيه تعليمات باش نبني image تاع التطبيق تاعنا.
 
+#gunicorn howa production server 
