@@ -1,6 +1,10 @@
 services:
   web:
-    image: devopsdz/my-devops-app
+    image: devopsdz/my-devops-app 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-app
     ports:
       - "5000:5000"
-
+  

@@ -19,11 +19,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: 🛠️ Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-devops-app .
+      - name: 🛠️ Build Docker image using Compose
+        run: docker compose -f docker-compose.yml build
 
       - name: 🚀 Push image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/my-devops-app
+        run: docker compose -f docker-compose.yml push
 
       - name: 🔑 Set up SSH key
         run: |
@@ -32,9 +32,20 @@ jobs:
 
       - name: 🛰️ Deploy on EC2 via SSH
         run: |
+          scp -i devopsdz_key.pem docker-compose.yml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/app
+
           ssh -o StrictHostKeyChecking=no -i devopsdz_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          
+
           echo "✅ Connected to EC2"
 
           echo "🧼 Killing containers on port 5000 if any..."
-          docker ps --format "{{.ID}} {{.Ports}}" | grep "0.0.0.0:5000" | cut -d' ' -f1 | xargs -r docker stop
+          docker compose -f docker-compose.yml down
+          cd /app
+
+          echo "📥 Pulling latest image..."
+          docker compose -f docker-compose.yml pull
+
+          echo "🚀 Running new container..."
+          docker compose -f docker-compose.yml up
+
+          EOF
