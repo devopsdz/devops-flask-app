@@ -47,12 +47,12 @@ jobs:
           cd /home/${{ secrets.EC2_USER }}/app
 
           echo "🧼 Stopping old containers..."
-          docker compose -f docker-compose.yml down
+          docker-compose -f docker-compose.yml down
 
           echo "📥 Pulling latest image..."
-          docker compose -f docker-compose.yml pull
+          docker-compose -f docker-compose.yml pull
 
           echo "🚀 Starting new container in detached mode..."
-          docker compose -f docker-compose.yml up -d
+          docker-compose -f docker-compose.yml up -d
 
           EOF
