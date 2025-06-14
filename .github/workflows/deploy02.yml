@@ -32,11 +32,11 @@ jobs:
 
       - name: 📁 Create /app folder on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i devopsdz_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "mkdir -p /app"
+          ssh -o StrictHostKeyChecking=no -i devopsdz_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "mkdir -p /home/${{ secrets.EC2_USER }}/app"
 
       - name: 📤 Copy docker-compose.yml to EC2
         run: |
-          scp -o StrictHostKeyChecking=no -i devopsdz_key.pem docker-compose.yml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/app
+          scp -o StrictHostKeyChecking=no -i devopsdz_key.pem docker-compose.yml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/app
 
       - name: 🛰️ Deploy on EC2 via SSH
         run: |
@@ -44,7 +44,7 @@ jobs:
           
           echo "✅ Connected to EC2"
 
-          cd /app
+          cd /home/${{ secrets.EC2_USER }}/app
 
           echo "🧼 Stopping old containers..."
           docker compose -f docker-compose.yml down
