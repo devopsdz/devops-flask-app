@@ -14,6 +14,8 @@ services:
     - REDIS_URL=redis://redis:6379 # هذا هو عنوان Redis داخل الحاوية
     depends_on:
       - redis-machine
+    networks:
+      - public-network
   # يعني Flask مايخدمش حتى Redis يكون واجد.
   redis-machine:
     # تعريف خدمة Redis.
@@ -24,6 +26,8 @@ services:
     ports:
       - "6379:6379"
       - "8000:8001"
-
-
-  
+    networks:
+      - public-network
+networks:
+  public-network:
+    driver: bridge 
