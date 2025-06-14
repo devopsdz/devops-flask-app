@@ -1,15 +1,21 @@
-FROM python:3.9-slim
+# 1. نبداو من صورة رسمية خفيفة فيها بايثون
+FROM python:3.13-slim
 
-WORKDIR /app
+# 2. نحددو وين نخدمو فداخل الحاوية
+WORKDIR /redis
 
+# 3. ننسخو الملفات من جهازنا الى الحاوية
 COPY requirements.txt .
 
-RUN pip install -r requirements.txt
 
+# 4. نثبتو المكتبات الضرورية
+RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 EXPOSE 5000
 
-
+# 5. وقت لي الحاوية تخدم, هاد الأمر يتنفذ
 CMD ["python", "app.py"]
+
+# الهدف: نحطو فيه تعليمات باش نبني image تاع التطبيق تاعنا.
 

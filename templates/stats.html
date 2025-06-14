@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Stats</h2>
+<canvas id="myChart" width="400" height="200"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const labels = {{ labels | tojson }};
+  const data = {{ data | tojson }};
+  const ctx = document.getElementById('myChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Visit Count',
+        data: data,
+        backgroundColor: 'rgba(54, 162, 235, 0.5)'
+      }]
+    }
+  });
+</script>
+{% endblock %}

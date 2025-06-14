@@ -7,4 +7,23 @@ services:
     container_name: my-app
     ports:
       - "5000:5000"
+    volumes:
+      - .:/redis
+      # يربط البورت 5000 تاع الحاوية مع بورت الجهاز.
+    environment:
+    - REDIS_URL=redis://redis:6379 # هذا هو عنوان Redis داخل الحاوية
+    depends_on:
+      - redis-machine
+  # يعني Flask مايخدمش حتى Redis يكون واجد.
+  redis-machine:
+    # تعريف خدمة Redis.
+    # image: redis:alpine
+    # image: redis/redisinsight:latest
+    image: redis/redis-stack
+    # نستعمل صورة خفيفة تاع Redis مبنية على Alpine.
+    ports:
+      - "6379:6379"
+      - "8000:8001"
+
+
   

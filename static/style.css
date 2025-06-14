@@ -1,0 +1,42 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  padding: 30px;
+}
+form {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  margin: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+input[type="text"],
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+input[type="submit"] {
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+}
+.flash {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  text-align: center;
+}
+.flash.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+.flash.info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+.flash.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
