@@ -1,6 +1,6 @@
 services:
   web:
-    image: devopsdz83/my-devops-app 
+    image: devopsdz83/my-devops-app:latest 
     build:
       context: .
       dockerfile: Dockerfile
