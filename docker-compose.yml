@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     container_name: my-app
     ports:
-      - "5000:5000"
+      - "4000:4000"
     volumes:
       - .:/redis
       # يربط البورت 5000 تاع الحاوية مع بورت الجهاز.

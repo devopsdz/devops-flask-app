@@ -12,7 +12,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
-EXPOSE 5000
+EXPOSE 4000
 
 # 5. وقت لي الحاوية تخدم, هاد الأمر يتنفذ
 CMD ["python", "app.py"]
