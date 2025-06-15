@@ -6,5 +6,5 @@ This is a simple Flask application built for DevOps learning.
 
 ```bash
 pip3 install -r requirements.txt
-python3 app/main.py
+python3 app
 
