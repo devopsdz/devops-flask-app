@@ -1,9 +1,16 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, session
 import redis
 from functools import wraps
+from prometheus_flask_exporter import PrometheusMetrics
+from prometheus_client import Counter
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 app.secret_key = 'your_secret_key'
+
+# Custom Prometheus counters
+login_counter = Counter('login_attempts', 'Total login attempts')
+reset_counter = Counter('reset_operations', 'Total reset operations')
 
 # Redis setup
 app.config['REDIS_URL'] = "redis://redis-machine:6379"
@@ -45,6 +52,7 @@ def reset():
             key = f"user:{username}"
             r.set(key, 0)
             flash(f"Visits reset for {username}.", "info")
+            reset_counter.inc()
             return redirect(url_for('reset'))
     return render_template('reset.html')
 
@@ -58,6 +66,7 @@ def stats():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        login_counter.inc()
         user = request.form['username']
         pwd = request.form['password']
         if USERS.get(user) == pwd:

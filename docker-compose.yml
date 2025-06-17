@@ -1,6 +1,6 @@
 services:
   web:
-    image: devopsdz83/my-devops-app:latest 
+    image: devopsdz83/my-devops-app:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,25 +9,21 @@ services:
       - "4000:4000"
     volumes:
       - .:/redis
-      # يربط البورت 5000 تاع الحاوية مع بورت الجهاز.
     environment:
-    - REDIS_URL=redis://redis:6379 # هذا هو عنوان Redis داخل الحاوية
+      - REDIS_URL=redis://redis:6379
     depends_on:
       - redis-machine
     networks:
       - public-network
-  # يعني Flask مايخدمش حتى Redis يكون واجد.
+
   redis-machine:
-    # تعريف خدمة Redis.
-    # image: redis:alpine
-    # image: redis/redisinsight:latest
     image: redis/redis-stack
-    # نستعمل صورة خفيفة تاع Redis مبنية على Alpine.
     ports:
       - "6379:6379"
       - "8000:8001"
     networks:
       - public-network
+
   portainer:
     image: portainer/portainer-ce
     container_name: portainer
@@ -38,9 +34,30 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
 
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - public-network
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - public-network
+
 volumes:
   portainer_data:
+  grafana-storage:
 
 networks:
   public-network:
-    driver: bridge 
+    driver: bridge

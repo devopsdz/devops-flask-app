@@ -2,3 +2,4 @@ flask
 redis
 pytest
 gunicorn
+prometheus_flask_exporter
