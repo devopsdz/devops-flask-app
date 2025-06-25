@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-config
+data:
+  REDIS_URL: redis://redis-machine:6379
+#ConfigMap يخزن إعدادات عادية غير حساسة
+ #(مثل اسم الموقع، رابط قاعدة البيانات، إلخ)
