@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 # ------------------ Flask Setup ------------------
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', 'default_secret')  # ✅ أفضل استعمال secret من البيئة
+admin_password = os.getenv('ADMIN_PASSWORD')
 
 # ------------------ Prometheus Monitoring ------------------
 
@@ -26,13 +26,13 @@ reset_counter = Counter('reset_operations', 'Total reset operations')
 
 # ------------------ Redis Setup ------------------
 
-app.config['REDIS_URL'] = os.getenv("REDIS_URL", "redis://localhost:6379")  # ✅ قيمة افتراضية محليًا
-r = redis.Redis.from_url(app.config['REDIS_URL'])
+redis_url = os.getenv("REDIS_URL")
+r = redis.Redis.from_url(redis_url)
 
 # ------------------ Dummy Users ------------------
 
 USERS = {
-    "admin": "password123"
+    "admin": admin_password
 }
 
 # ------------------ Login Required Decorator ------------------

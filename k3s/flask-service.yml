@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: flask-service
 spec:
-  type: NodePort  # باش نخلي الخدمة تتوصل من خارج الكلاستر
   selector:
-    app: flask-pod  # هذا هو نفس الـ label اللي راك ديرو فـ Pod/Deployment
-  ports:
-    - port: 4000         # البورت الداخلي داخل الـ cluster
-      targetPort: 4000   # البورت اللي يخدم عليه التطبيق داخل الـ Pod
-      nodePort: 30007    # البورت اللي تقدر توصله من المتصفح: http://IP:30007
+    app: flask
+  type: NodePort
+  ports: 
+    - port: 4000
+      targetPort: 4000
+      nodePort: 30007

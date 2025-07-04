@@ -1,21 +1,30 @@
-apiVersion: apps/v1        # نوع الكائن - Deployment يتبع apps/v1
-kind: Deployment           # هذا الكائن هو Deployment
-
-metadata:                  # معلومات عن هذا الكائن
-  name: flask-deployment   # اسم الـ Deployment
-
-spec:                      # تعريف الخصائص التقنية
-  replicas: 2              # عدد النسخ (Pods) اللي تحبهم يخدمو
-  selector:                # كيفاش يلقا الـ Pods لي يديرلهم إدارة
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  replicas: 1
+  selector:
     matchLabels:
-      app: flask-pod       # لازم الـ Pods يكون فيهم هذا الليبل باش يتعرفو
-  template:                # كيفاش راح يكون شكل كل Pod
+      app: flask
+  template:
     metadata:
       labels:
-        app: flask-pod     # نحطو نفس الليبل باش الـ Deployment يلقاهم
-    spec:                  # داخل الـ Pod
+        app: flask
+    spec:
       containers:
-        - name: flask-container        # اسم الكونتينر
-          image: devopsdz83/my-devops-app:latest  # صورة Docker
-          ports:
-            - containerPort: 4000      # البورت داخل الكونتينر
+      - name: flask-container
+        image: devopsdz83/my-devops-app:latest 
+        ports:
+        - containerPort: 4000
+        env:
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: redis_url
+        - name : admin_password
+          valueFrom:
+            secretKeyRef:
+              name: flask-secret
+              key: admin_password
